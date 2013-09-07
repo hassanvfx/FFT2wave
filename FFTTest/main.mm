@@ -34,7 +34,7 @@ int main(int argc, const char * argv[])
     uint32_t i = 0;
     
     
-    uint32_t L = 512;
+    uint32_t L = 1024;
     
     /* vector allocations*/
     float *input = new float [L];
@@ -59,25 +59,32 @@ int main(int argc, const char * argv[])
     
     input[ (L/2) -12]= (1.0/(2*L));
     
-    
-    input[ (L/2) -24]= (1.0/(2*L));
+     input[ (L/2) -22]= (1.0/(2*L));
+//
+//    
+//    input[ (L/2) -24]= (1.0/(2*L));
+//    
+//    
+//    input[ (L/4) -24]= (1.0/(2*L));
     
     uint32_t log2n = log2f((float)L);
-    uint32_t n = 1 << log2n;
+    uint32_t log2n2 = log2f((float)L/2);
     //printf("FFT LENGTH = %lu\n", n);
     
     
     FFTSetup fftSetup;
+    FFTSetup fftSetup2;
     COMPLEX_SPLIT A;
     COMPLEX_SPLIT B;
     A.realp = (float*) malloc(sizeof(float) * L/2);
     A.imagp = (float*) malloc(sizeof(float) * L/2);
     
-    B.realp = (float*) malloc(sizeof(float) * L/2);
-    B.imagp = (float*) malloc(sizeof(float) * L/2);
+    B.realp = (float*) malloc(sizeof(float) * L/4);
+    B.imagp = (float*) malloc(sizeof(float) * L/4);
     
     
     fftSetup = vDSP_create_fftsetup(log2n, FFT_RADIX2);
+    fftSetup2 = vDSP_create_fftsetup(log2n2, FFT_RADIX2);
     
     /// FREQ DOMAIN
     /// 1. take the interleaved planar buffer (r1,i1,r2,i2,...) into the split complex buffer
@@ -94,13 +101,19 @@ int main(int argc, const char * argv[])
     /// 8. take the forward transform of the wave amplitude
     mag[0] = sqrtf(A.realp[0]*A.realp[0]);
     
- 
+    vDSP_zvphas (&A, 1, phase, 1, L/2);
+    phase[0] = 0;
+    
 
-    //get magnitude;
+    //create a wave from phase and magnitude
     for(i = 1; i < L/2; i++){
-        mag[i] = sqrtf(A.realp[i]*A.realp[i] + A.imagp[i] * A.imagp[i]);
+        mag[i] = sqrtf(A.realp[i]*A.realp[i] + A.imagp[i] * A.imagp[i])*cos(phase[i]);
     }
     
+   
+    
+    /// TRANSMIT THE WAVE IN PCM
+    /// 4. use OS fameworks to encode and transmit
     printf("----magnitude\n");
     for (i = 0 ; i < L/4; i++)
     {
@@ -108,21 +121,25 @@ int main(int argc, const char * argv[])
     }
     printf("----magnitude\n");
     
-    /// TRANSMIT THE WAVE IN PCM
-    /// 4. use OS fameworks to encode and transmit
-    
     /// RECEIVE THE WAVE  FROM PCM
     //  5. use OS frameworks to receive and decode pcm samples
     
     /// TURN THE AMPLITUDE SCALAR INTO A COMPLEX
     /// 6. using cToz convert the amplitude into a complex
     
-     vDSP_ctoz((COMPLEX *) mag, 2, &A, 1, L/4);
+    
+//    for (i = 0 ; i < L/2; i++)
+//    {
+//        A.realp[i]=0;
+//        A.imagp[i]=0;
+//    }
+    
+     vDSP_ctoz((COMPLEX *) mag, 2, &B, 1, L/4);
     
 
     /// MAKE THE FORWARD TRANSFORM
     /// 7. take the forward transform of the wave amplitude
-    vDSP_fft_zrip(fftSetup, &A, 1, log2n, FFT_FORWARD);
+    vDSP_fft_zrip(fftSetup2, &B, 1, log2n2, FFT_FORWARD);
 
 //     printf("FORWARD");
 //    for (i = 0 ; i < L/2; i++)
@@ -133,12 +150,12 @@ int main(int argc, const char * argv[])
     
     /// GET THE MAGNITUDES
     /// 8. take the forward transform of the wave amplitude
-    mag[0] = sqrtf(A.realp[0]*A.realp[0]);
+    mag[0] = sqrtf(B.realp[0]*B.realp[0]);
 
     
     //get magnitude;
     for(i = 1; i < L/4; i++){
-        mag[i] = sqrtf(A.realp[i]*A.realp[i] + A.imagp[i] * A.imagp[i]);
+        mag[i] = sqrtf(B.realp[i]*B.realp[i] + B.imagp[i] * B.imagp[i]);
     }
     
     
