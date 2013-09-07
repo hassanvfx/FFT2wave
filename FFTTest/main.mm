@@ -55,11 +55,11 @@ int main(int argc, const char * argv[])
 //        input[i*2] = 1;
 //    }
     
-    input[ (L/2) -2]= (1.0/(2*L)); //fill an impulse signal (real part)
+    input[ (L/2) -2]= (1.0/(L)); //fill an impulse signal (real part)
     
-    input[ (L/2) -12]= (1.0/(2*L));
+    input[ (L/2) -12]= (1.0/(L));
     
-     input[ (L/2) -22]= (1.0/(2*L));
+     input[ (L/2) -22]= (1.0/(L));
 //
 //    
 //    input[ (L/2) -24]= (1.0/(2*L));
