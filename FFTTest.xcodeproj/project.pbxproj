@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		463D59A917DA38DD006698C9 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 463D59A817DA38DD006698C9 /* main.c */; };
+		463D59A917DA38DD006698C9 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 463D59A817DA38DD006698C9 /* main.mm */; };
 		463D59AB17DA38DD006698C9 /* FFTTest.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 463D59AA17DA38DD006698C9 /* FFTTest.1 */; };
+		463D59B217DA394A006698C9 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463D59B117DA394A006698C9 /* Accelerate.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,8 +27,9 @@
 
 /* Begin PBXFileReference section */
 		463D59A517DA38DC006698C9 /* FFTTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FFTTest; sourceTree = BUILT_PRODUCTS_DIR; };
-		463D59A817DA38DD006698C9 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		463D59A817DA38DD006698C9 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		463D59AA17DA38DD006698C9 /* FFTTest.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = FFTTest.1; sourceTree = "<group>"; };
+		463D59B117DA394A006698C9 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				463D59B217DA394A006698C9 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +47,7 @@
 		463D599C17DA38DC006698C9 = {
 			isa = PBXGroup;
 			children = (
+				463D59B117DA394A006698C9 /* Accelerate.framework */,
 				463D59A717DA38DC006698C9 /* FFTTest */,
 				463D59A617DA38DC006698C9 /* Products */,
 			);
@@ -60,7 +64,7 @@
 		463D59A717DA38DC006698C9 /* FFTTest */ = {
 			isa = PBXGroup;
 			children = (
-				463D59A817DA38DD006698C9 /* main.c */,
+				463D59A817DA38DD006698C9 /* main.mm */,
 				463D59AA17DA38DD006698C9 /* FFTTest.1 */,
 			);
 			path = FFTTest;
@@ -117,7 +121,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				463D59A917DA38DD006698C9 /* main.c in Sources */,
+				463D59A917DA38DD006698C9 /* main.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
